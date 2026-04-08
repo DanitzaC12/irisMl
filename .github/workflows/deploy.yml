@@ -1,0 +1,32 @@
+name: Docker CI/CD Pipeline
+
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+    branches: ["main", "master"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Configuration de Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build du backend
+        run: |
+          docker build ./backend -t iris-backend:test
+
+      - name: Build du Frontend
+        run: |
+          docker build ./front -t iris-frontend:test
+
+      - name: Test de démarrage (Docker Compose)
+        run: |
+          docker compose up -d
+          sleep 5
+          docker ps 
