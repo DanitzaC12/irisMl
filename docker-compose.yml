@@ -1,0 +1,20 @@
+
+services:
+  backend:
+    build: ./backend
+    container_name: iris_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    build: ./front
+    container_name: iris_frontend
+    ports:
+      - "8501:8501"
+    environment:
+      - BACKEND_URL=http://backend:8000
+    depends_on:
+      - backend
+    
