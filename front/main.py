@@ -3,27 +3,29 @@ import extra_streamlit_components as stx
 import requests
 import os
 
-BACKEND_URL = os.getenv("BACKEND_URL", "http://backend:8000")
+BACKEND_URL = os.getenv("BACKEND_URL", "https://iris-backend-api-c6gudrgggff5dhhz.francecentral-01.azurewebsites.net")
 
 st.set_page_config(page_title="Iris Prediction", page_icon="🌸", layout="centered")
 chosen_id = stx.tab_bar(data=[
-    stx.TabBarItemData(id="tab1", title="Prédiction", description="Saisir les données"),
-], default="tab1")
+    stx.TabBarItemData(id="predict", title="Prédiction", description="Identifier une fleur"),
+    stx.TabBarItemData(id="info", title="À propos", description="Détails du modèle"),
+], default="predict")
 
-if chosen_id == "tab1":
-    st.title("Prédire la variété d'Iris")
+if chosen_id == "predict":
+    st.title("🌸 Prédire la variété d'Iris")
+    st.write("Ajustez les paramètres ci-dessous pour identifier l'espèce.")
 
 with st.form("iris_form"):
     st.subheader("Paramètres d'entrée")
     col1, col2 = st.columns(2)
     with col1:
-        sl = st.number_input("sepal_length", value=0.0, format="%.1f")
-        sw = st.number_input("sepal_width", value=0.0, format="%.1f")
+        sl = st.number_input("Longueur du sépale (cm)", min_value=0.0, max_value=10.0, value=5.1, step=0.1, format="%.1f")
+        sw = st.number_input("Largeur du sépale (cm)", min_value=0.0, max_value=10.0, value=3.5, step=0.1, format="%.1f")
     with col2:
-        pl = st.number_input("petal_length", value=0.0, format="%.1f")
-        pw = st.number_input("petal_width", value=0.0, format="%.1f")
+        pl = st.number_input("Longueur du pétale (cm)", min_value=0.0, max_value=10.0, value=1.4, step=0.1, format="%.1f")
+        pw = st.number_input("Largeur du pétale (cm)", min_value=0.0, max_value=10.0, value=0.2, step=0.1, format="%.1f")
 
-    submit = st.form_submit_button("Prédiction")
+    submit = st.form_submit_button("Lancer la prédiction")
 
 if submit:
     payload = {
@@ -34,7 +36,8 @@ if submit:
     }
     try:
         with st.spinner("Analyse en cours..."):
-            response = requests.post(f"{BACKEND_URL}/predict", json=payload)
+            endpoint = f"{BACKEND_URL.rstrip('/')}/predict"
+            response = requests.post(endpoint, json=payload, timeout=10)
             
             if response.status_code == 200:
                 res_json = response.json()
@@ -44,6 +47,8 @@ if submit:
                 nom_iris = iris_map.get(pred_id, f"Classe {pred_id}")
 
                 st.success(f"### Résultat : {nom_iris}")
+                if "probability" in res_json:
+                    st.info(f"Confiance du modèle : {res_json['probability']}%")
             else:
                 st.error(f"Erreur API ({response.status_code}) : {response.text}")
 
