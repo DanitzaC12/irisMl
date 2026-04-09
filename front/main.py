@@ -1,19 +1,13 @@
 import streamlit as st
-import extra_streamlit_components as stx
 import requests
 import os
 
 BACKEND_URL = os.getenv("BACKEND_URL", "https://iris-backend-api-c6gudrgggff5dhhz.francecentral-01.azurewebsites.net")
 
 st.set_page_config(page_title="Iris Prediction", page_icon="🌸", layout="centered")
-chosen_id = stx.tab_bar(data=[
-    stx.TabBarItemData(id="predict", title="Prédiction", description="Identifier une fleur"),
-    stx.TabBarItemData(id="info", title="À propos", description="Détails du modèle"),
-], default="predict")
 
-if chosen_id == "predict":
-    st.title("🌸 Prédire la variété d'Iris")
-    st.write("Ajustez les paramètres ci-dessous pour identifier l'espèce.")
+st.title("🌸 Prédire la variété d'Iris")
+st.write("Ajustez les paramètres ci-dessous pour identifier l'espèce.")
 
 with st.form("iris_form"):
     st.subheader("Paramètres d'entrée")
