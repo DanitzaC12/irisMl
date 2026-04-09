@@ -6,6 +6,23 @@ BACKEND_URL = os.getenv("BACKEND_URL", "https://iris-backend-api-c6gudrgggff5dhh
 
 st.set_page_config(page_title="Iris Prediction", page_icon="🌸", layout="centered")
 
+st.markdown("""
+    <style>
+    div[data-testid="stForm"] {
+        background-color: #e8f5e9; 
+        padding: 20px;
+        border-radius: 15px;
+        border: 2px solid #4CAF50; 
+    }
+    div[data-testid="stFormSubmitButton"] button {
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 10px;
+        width: 100%;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 st.title("🌸 Prédire la variété d'Iris")
 st.write("Ajustez les paramètres ci-dessous pour identifier l'espèce.")
 
