@@ -30,11 +30,11 @@ with st.form("iris_form"):
     st.subheader("Paramètres d'entrée")
     col1, col2 = st.columns(2)
     with col1:
-        sl = st.number_input("Longueur du sépale (cm)", min_value=0.0, max_value=10.0, value=5.1, step=0.1, format="%.1f")
-        sw = st.number_input("Largeur du sépale (cm)", min_value=0.0, max_value=10.0, value=3.5, step=0.1, format="%.1f")
+        sl = st.number_input("Longueur du sépale (cm)", min_value=0.0, max_value=10.0, value=0.0, step=0.1, format="%.1f")
+        sw = st.number_input("Largeur du sépale (cm)", min_value=0.0, max_value=10.0, value=0.0, step=0.1, format="%.1f")
     with col2:
-        pl = st.number_input("Longueur du pétale (cm)", min_value=0.0, max_value=10.0, step=0.1, format="%.1f")
-        pw = st.number_input("Largeur du pétale (cm)", min_value=0.0, max_value=10.0, value=0.2, step=0.1, format="%.1f")
+        pl = st.number_input("Longueur du pétale (cm)", min_value=0.0, max_value=10.0, value=0.0, step=0.1, format="%.1f")
+        pw = st.number_input("Largeur du pétale (cm)", min_value=0.0, max_value=10.0, value=0.0, step=0.1, format="%.1f")
 
     submit = st.form_submit_button("Lancer la prédiction")
 
